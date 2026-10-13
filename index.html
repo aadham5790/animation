@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>sm</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="scenes">
+  <section class="scene scene--particles" data-scene="particles" data-name="Particles"><div class="stage" data-stage></div></section>
+  <section class="scene scene--blobs" data-scene="blobs" data-name="Blobs"><div class="stage" data-stage></div></section>
+  <section class="scene scene--wave" data-scene="wave" data-name="Waves"><div class="stage" data-stage></div></section>
+  <section class="scene scene--orbits" data-scene="orbits" data-name="Orbits"><div class="stage" data-stage></div></section>
+  <section class="scene scene--trail" data-scene="trail" data-name="Trail"><div class="stage" data-stage></div></section>
+  <section class="scene scene--confetti" data-scene="confetti" data-name="Confetti"><div class="stage" data-stage></div></section>
+  <section class="scene scene--matrix" data-scene="matrix" data-name="Matrix"><div class="stage" data-stage></div></section>
+  <section class="scene scene--ripples" data-scene="ripples" data-name="Ripples"><div class="stage" data-stage></div></section>
+  <section class="scene scene--starfield" data-scene="starfield" data-name="Starfield"><div class="stage" data-stage></div></section>
+  <section class="scene scene--physics" data-scene="physics" data-name="Physics"><div class="stage" data-stage></div></section>
+  <section class="scene scene--attractor" data-scene="attractor" data-name="Attractor"><div class="stage" data-stage></div></section>
+  <section class="scene scene--boids" data-scene="boids" data-name="Boids"><div class="stage" data-stage></div></section>
+  <section class="scene scene--ribbons" data-scene="ribbons" data-name="Ribbons"><div class="stage" data-stage></div></section>
+  <section class="scene scene--kaleidoscope" data-scene="kaleidoscope" data-name="Kaleidoscope"><div class="stage" data-stage></div></section>
+  <section class="scene scene--spirograph" data-scene="spirograph" data-name="Spirograph"><div class="stage" data-stage></div></section>
+  <section class="scene scene--helix" data-scene="helix" data-name="Helix"><div class="stage" data-stage></div></section>
+  <section class="scene scene--dunes" data-scene="dunes" data-name="Dunes"><div class="stage" data-stage></div></section>
+  <section class="scene scene--tunnel" data-scene="tunnel" data-name="Tunnel"><div class="stage" data-stage></div></section>
+  <section class="scene scene--rank" data-scene="rank"><div class="stage" data-stage></div></section>
+</main>
+<nav class="dots" aria-hidden="true"></nav>
+<div class="vote">
+  <button type="button" class="vote-btn" data-vote="like" aria-label="Like" aria-pressed="false">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3z"/><path d="M7 10l4.5-7a2 2 0 0 1 3.4 2l-1.3 4h5.4a2 2 0 0 1 2 2.4l-1.4 7A2 2 0 0 1 17.6 20H7"/></svg>
+    <span class="vote-count">0</span>
+  </button>
+  <button type="button" class="vote-btn" data-vote="dislike" aria-label="Dislike" aria-pressed="false">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3z"/><path d="M17 14l-4.5 7a2 2 0 0 1-3.4-2l1.3-4H5a2 2 0 0 1-2-2.4l1.4-7A2 2 0 0 1 6.4 4H17"/></svg>
+    <span class="vote-count">0</span>
+  </button>
+</div>
+<div class="progress" aria-hidden="true"><div class="progress-bar"></div></div>
+<script src="js/scene-kit.js"></script>
+<script src="js/votes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

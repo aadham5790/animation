@@ -1,0 +1,437 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+}
+
+body {
+  background: #05060a;
+  color: #fff;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scene {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+.scene--particles {
+  background: radial-gradient(130% 130% at 20% 15%, #16224d 0%, #05060a 62%);
+}
+
+.scene--blobs {
+  background: linear-gradient(160deg, #1b0f2e 0%, #060309 72%);
+}
+
+.scene--wave {
+  background: radial-gradient(110% 110% at 82% 84%, #06302c 0%, #04070a 66%);
+}
+
+.scene--orbits {
+  background: radial-gradient(95% 95% at 50% 45%, #251238 0%, #07040d 72%);
+}
+
+.scene--trail {
+  background: linear-gradient(200deg, #2c1032 0%, #060309 78%);
+}
+
+.scene--confetti {
+  background: radial-gradient(130% 110% at 50% 105%, #3d1032 0%, #07040a 72%);
+}
+
+.scene--matrix {
+  background: radial-gradient(120% 120% at 30% 0%, #04231a 0%, #030806 70%);
+}
+
+.scene--ripples {
+  background: radial-gradient(110% 110% at 70% 30%, #062a3f 0%, #03080e 70%);
+}
+
+.scene--starfield {
+  background: radial-gradient(120% 120% at 50% 50%, #101736 0%, #02030a 72%);
+}
+
+.scene--physics {
+  background: radial-gradient(115% 115% at 25% 85%, #0a2440 0%, #04070f 70%);
+}
+
+.scene--attractor {
+  background: radial-gradient(110% 110% at 60% 40%, #1c0f2e 0%, #06030c 72%);
+}
+
+.scene--boids {
+  background: linear-gradient(190deg, #05231f 0%, #030807 75%);
+}
+
+.scene--ribbons {
+  background: linear-gradient(155deg, #10112e 0%, #05060f 72%);
+}
+
+.scene--kaleidoscope {
+  background: radial-gradient(100% 100% at 50% 50%, #2a0f33 0%, #08040e 72%);
+}
+
+.scene--spirograph {
+  background: radial-gradient(105% 105% at 45% 55%, #1b1030 0%, #07040d 72%);
+}
+
+.scene--helix {
+  background: radial-gradient(110% 110% at 50% 50%, #0b1e3a 0%, #04060e 72%);
+}
+
+.scene--dunes {
+  background: linear-gradient(180deg, #170f30 0%, #0a0620 45%, #120a26 100%);
+}
+
+.scene--tunnel {
+  background: radial-gradient(100% 100% at 50% 50%, #141034 0%, #05030c 72%);
+}
+
+.scene--rank {
+  background: radial-gradient(110% 110% at 50% 40%, #1a1436 0%, #06040e 72%);
+}
+
+.rank {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6vmin;
+  padding: 8vmin 12vmin;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.rank-row {
+  display: grid;
+  grid-template-columns: auto 1fr 3ch 3ch;
+  align-items: center;
+  gap: 2.5vmin;
+}
+
+.rank-name {
+  min-width: 0;
+  font-size: clamp(10px, 1.9vmin, 18px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rank-bar {
+  height: 1.6vmin;
+  min-height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.rank-fill {
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.rank-fill.is-like {
+  background: linear-gradient(90deg, rgba(52, 211, 153, 0.55), #34d399);
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.55);
+}
+
+.rank-fill.is-dislike {
+  background: linear-gradient(90deg, rgba(251, 113, 133, 0.5), #fb7185);
+  box-shadow: 0 0 10px rgba(251, 113, 133, 0.45);
+}
+
+.rank-fill.is-none {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.rank-count {
+  font-size: clamp(10px, 1.8vmin, 17px);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.rank-count.is-like {
+  color: #34d399;
+}
+
+.rank-count.is-dislike {
+  color: #fb7185;
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 0.38) 100%);
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.scene-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.dots {
+  position: fixed;
+  right: calc(18px + env(safe-area-inset-right, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.dot.is-active {
+  background: #fff;
+  transform: scale(1.55);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.85);
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #7af7ff, #c084fc);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+.vote {
+  position: fixed;
+  left: calc(18px + env(safe-area-inset-left, 0px));
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  gap: 12px;
+  z-index: 12;
+  transition: opacity 0.3s ease;
+}
+
+.vote.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vote-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
+}
+
+.vote-count {
+  font-size: 12px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.vote-btn:hover {
+  color: #fff;
+  transform: scale(1.15);
+}
+
+.vote-btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.vote-btn[data-vote="like"].is-active {
+  color: #34d399;
+  filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.7));
+}
+
+.vote-btn[data-vote="dislike"].is-active {
+  color: #fb7185;
+  filter: drop-shadow(0 0 8px rgba(251, 113, 133, 0.7));
+}
+
+.vote-btn.is-pop {
+  animation: vote-pop 0.35s ease;
+}
+
+@keyframes vote-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.orbits {
+  position: absolute;
+  inset: 0;
+  perspective: 900px;
+  z-index: 1;
+}
+
+.orbit-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.orbit-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+}
+
+.orbit-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(170, 130, 255, 0.4) 45%, rgba(255, 255, 255, 0) 72%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  .dot {
+    transition: none;
+  }
+
+  .vote-btn,
+  .vote-btn.is-pop {
+    transition: none;
+    animation: none;
+  }
+
+  .vote {
+    transition: none;
+  }
+
+  .rank-fill {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px), (max-height: 560px) {
+  .dots {
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    gap: 8px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dot.is-active {
+    transform: scale(1.4);
+  }
+
+  .vote {
+    left: calc(12px + env(safe-area-inset-left, 0px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
+  }
+
+  .vote-count {
+    font-size: 11px;
+  }
+
+  .progress {
+    height: 2px;
+  }
+}
+
+@media (max-width: 480px), (max-height: 460px) {
+  .rank {
+    padding: 5vmin 6vmin;
+    gap: 2px;
+  }
+
+  .rank-row {
+    grid-template-columns: auto 1fr 2.5ch 2.5ch;
+    gap: 2vmin;
+  }
+
+  .rank-name,
+  .rank-count {
+    font-size: clamp(9px, 1.7vmin, 16px);
+  }
+
+  .rank-bar {
+    min-height: 4px;
+    height: 4px;
+  }
+}
+
+@media (pointer: coarse) {
+  .dot {
+    padding: 6px;
+    background-clip: content-box;
+  }
+
+  .vote-btn {
+    padding: 10px;
+  }
+}
