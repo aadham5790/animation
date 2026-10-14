@@ -22,7 +22,7 @@
     dot.type = 'button';
     dot.className = 'dot';
     dot.tabIndex = -1;
-    dot.setAttribute('aria-hidden', 'true');
+    dot.setAttribute('aria-label', 'Go to ' + (i + 1) + ': ' + (sceneEls[i].getAttribute('data-name') || el.getAttribute('data-scene')));
     dot.addEventListener('click', function () {
       engaged();
       goTo(i);
@@ -80,22 +80,21 @@
       cb();
       return;
     }
-    if (scenePending[name]) {
-      scenePending[name].push(cb);
-      return;
+    if (!scenePending[name]) scenePending[name] = [];
+    scenePending[name].push(cb);
+    if (scenePending[name].length === 1) {
+      var s = document.createElement('script');
+      s.src = 'js/scenes/' + name + '.js';
+      s.onload = function () {
+        var queue = scenePending[name];
+        scenePending[name] = null;
+        for (var i = 0; i < queue.length; i++) queue[i]();
+      };
+      s.onerror = function () {
+        scenePending[name] = null;
+      };
+      document.body.appendChild(s);
     }
-    scenePending[name] = [cb];
-    var s = document.createElement('script');
-    s.src = 'js/scenes/' + name + '.js';
-    s.onload = function () {
-      var queue = scenePending[name];
-      scenePending[name] = null;
-      for (var i = 0; i < queue.length; i++) queue[i]();
-    };
-    s.onerror = function () {
-      scenePending[name] = null;
-    };
-    document.body.appendChild(s);
   }
 
   function engaged() {
@@ -106,6 +105,20 @@
   function resetTimer() {
     elapsed = 0;
     progressBar.style.transform = 'scaleX(0)';
+  }
+
+  var observer = null;
+  function initObserver() {
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var idx = sceneEls.indexOf(entry.target);
+          if (idx !== -1 && idx !== currentIndex) setActive(idx);
+        }
+      });
+    }, { root: null, threshold: 0.6 });
+    sceneEls.forEach(function (el) { observer.observe(el); });
   }
 
   function setActive(i) {
@@ -127,7 +140,12 @@
     ensureScene(name, function () {
       if (currentIndex !== i || !window.Scenes[name]) return;
       current = window.Scenes[name]();
-      current.start(el.querySelector('.stage'));
+      try {
+        current.start(el.querySelector('.stage'));
+      } catch (err) {
+        console.error('Failed to start scene ' + name + ':', err);
+        return;
+      }
       if (reduced && current.frame) current.frame(0, 0);
       var nextName = sceneEls[(i + 1) % sceneEls.length].getAttribute('data-scene');
       ensureScene(nextName, function () {});
@@ -159,13 +177,12 @@
 
   function loop(now) {
     window.requestAnimationFrame(loop);
+    if (document.hidden) return;
     if (!lastTime) lastTime = now;
     var dms = Math.min(now - lastTime, 50);
     lastTime = now;
     var dt = dms / 1000;
 
-    var idx = detectActive();
-    if (idx !== currentIndex) setActive(idx);
     if (current && current.frame) current.frame(dt, now / 1000);
 
     if (autoPaused && !reduced) {
@@ -215,6 +232,7 @@
     if (reduced && current && current.frame) current.frame(0, 0);
   });
 
-  setActive(detectActive());
+  initObserver();
+  setActive(0);
   window.requestAnimationFrame(loop);
 })();

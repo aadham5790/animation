@@ -163,7 +163,7 @@ body {
   font-size: clamp(10px, 1.8vmin, 17px);
   text-align: right;
   font-variant-numeric: tabular-nums;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .rank-count.is-like {
@@ -212,13 +212,13 @@ body {
   border: none;
   padding: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
   transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .dot:hover {
-  background: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .dot.is-active {
@@ -267,7 +267,7 @@ body {
   padding: 6px;
   border: none;
   background: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   touch-action: manipulation;
   transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
@@ -277,7 +277,7 @@ body {
   font-size: 12px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 .vote-btn:hover {
@@ -382,6 +382,7 @@ body {
   .dot {
     width: 8px;
     height: 8px;
+    background: rgba(255, 255, 255, 0.6);
   }
 
   .dot.is-active {
